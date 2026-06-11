@@ -1,6 +1,9 @@
 \documentclass[11pt]{article}
-\usepackage{fontspec}
-\setmainfont{Noto Sans CJK KR}
+% 한글: kotex 사용 (Overleaf/TeX Live 어디서나 동작)
+% Overleaf에서는 컴파일러를 XeLaTeX 로 설정하세요 (Menu > Compiler > XeLaTeX).
+% pdfLaTeX/LuaLaTeX 로도 컴파일됩니다.
+\usepackage{kotex}
+\usepackage{textcomp}   % \textdegree 등 기호
 \usepackage{amsmath,amssymb}
 \usepackage[a4paper,margin=2cm]{geometry}
 \usepackage{enumitem}
