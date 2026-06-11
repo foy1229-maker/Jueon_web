@@ -1,0 +1,583 @@
+\documentclass[11pt]{article}
+\usepackage{fontspec}
+\setmainfont{Noto Sans CJK KR}
+\usepackage{amsmath,amssymb}
+\usepackage[a4paper,margin=2cm]{geometry}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage{mdframed}
+
+\definecolor{kublue}{RGB}{40,60,120}
+\definecolor{kured}{RGB}{140,30,50}
+\definecolor{lightgray}{RGB}{245,245,248}
+
+\titleformat{\section}{\Large\bfseries\color{kured}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{kublue}}{\thesubsection}{0.6em}{}
+\titlespacing{\section}{0pt}{14pt}{8pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{kublue}\textbf{기초통신수학 I} · 기말 대비 연습}
+\fancyhead[R]{\small\color{kublue}\thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+
+\setlist[enumerate]{itemsep=5pt,topsep=4pt}
+\newcommand{\Lap}{\mathcal{L}}
+\newcommand{\Lapi}{\mathcal{L}^{-1}}
+\newcommand{\U}{\mathcal{U}}
+
+\newmdenv[linecolor=kublue,linewidth=0.8pt,backgroundcolor=lightgray,
+roundcorner=4pt,innertopmargin=6pt,innerbottommargin=6pt]{descbox}
+
+\newcommand{\ptype}[1]{\par\vspace{2pt}\begin{descbox}\small\textbf{출제 유형:} #1\end{descbox}\vspace{4pt}}
+
+\begin{document}
+
+%================ TITLE ================
+\begin{titlepage}
+\centering
+\vspace*{3cm}
+{\color{kured}\rule{\linewidth}{2pt}}\\[0.6cm]
+{\Huge\bfseries 기초통신수학 I}\\[0.5cm]
+{\LARGE Engineering Mathematics I}\\[0.8cm]
+{\color{kublue}\rule{\linewidth}{1pt}}\\[1.2cm]
+{\Large\bfseries 기말고사 대비 연습문제집}\\[0.4cm]
+{\large 유형 분석 · 유사문항 160제 · 정답 및 풀이}\\[1.5cm]
+\begin{descbox}
+\centering\large
+\textbf{시험 범위}\\[4pt]
+2장(2.2 · 2.3 · 2.4 · 2.5 · 2.7)\quad
+3장(3.1 · 3.2 · 3.3 · 3.4 · 3.5 · 3.6)\\[3pt]
+4장(4.1 · 4.2 · 4.3 · 4.4 · 4.5)\\[6pt]
+\small (5장, 3.12, 4.6 제외 — 소단원당 10문제, 총 160문제)
+\end{descbox}
+\vfill
+{\large KOREA University}\\[0.3cm]
+\end{titlepage}
+
+%================ OVERVIEW ================
+\section*{\color{kured}원본 문제 유형 분석 요약}
+\addcontentsline{toc}{section}{원본 문제 유형 분석 요약}
+첨부된 숙제문제 PDF를 분석한 결과, 각 소단원의 핵심 출제 유형은 다음과 같습니다. 본 연습문제집은 이 유형들을 그대로 반영하여 숫자·함수만 바꾼 유사문항으로 구성되었습니다.
+
+\vspace{4pt}
+\begin{multicols}{2}\small
+\textbf{2.2} 변수분리 · 초기값문제\\
+\textbf{2.3} 1계 선형 · 적분인자 · 과도항 · IVP\\
+\textbf{2.4} 완전미분방정식 · $k$ 결정 · 적분인자\\
+\textbf{2.5} 동차치환 · 베르누이 방정식\\
+\textbf{2.7} 성장·감쇠 · 냉각법칙 · 혼합\\
+\textbf{3.1} 론스키안 · 일차독립 · 유일해 구간 · IVP\\
+\textbf{3.2} 계수내림(2차 해 $y_2$) · 비동차 특수해\\
+\textbf{3.3} 상수계수(실·중근·복소근) · 고계 · BVP · 역문제\\
+\textbf{3.4} 미정계수법 · 공명(resonance)\\
+\textbf{3.5} 매개변수변화법 · 3계\\
+\textbf{3.6} 코시-오일러 · IVP · 역문제\\
+\textbf{4.1} 정의에 의한 변환 · 삼각항등식 · 감마함수\\
+\textbf{4.2} 역변환(부분분수) · IVP\\
+\textbf{4.3} 1·2차 이동정리 · 단위계단함수\\
+\textbf{4.4} 변환의 도함수 · 합성곱 · 적분의 변환\\
+\textbf{4.5} 디랙 델타(충격) 함수\\
+\end{multicols}
+
+\begin{center}\small\itshape
+사용법: PART I 에서 문제를 먼저 풀고, PART II 의 정답·풀이로 확인하세요.
+\end{center}
+
+\clearpage
+\begin{center}{\Huge\bfseries\color{kured} PART I.\quad 문제}\end{center}
+\vspace{6pt}
+
+%========================================================
+\section{제2장 \ 1계 미분방정식}
+
+\subsection{2.2 변수분리법}
+\ptype{변수를 분리하여 양변을 적분. 일부는 초기값문제(IVP).}
+\begin{enumerate}
+\item $\dfrac{dy}{dx}=x\,e^{-y}$
+\item $\dfrac{dy}{dx}=y^2 x^3$
+\item $(1+x^2)\dfrac{dy}{dx}=xy$
+\item $\dfrac{dy}{dx}=\dfrac{2x+1}{2y}$
+\item $\dfrac{dy}{dx}=e^{x+y}$
+\item $\ln x\,\dfrac{dy}{dx}=\dfrac{y}{x}$
+\item $\dfrac{dy}{dx}=\dfrac{y^2-1}{x}$
+\item $\sin 2x\,dx+\cos 3y\,dy=0$
+\item $\dfrac{dy}{dx}=y^2\sin x,\quad y\!\left(\tfrac{\pi}{2}\right)=1$
+\item $\dfrac{dy}{dx}=\dfrac{3x^2+1}{2y-3},\quad y(0)=1$
+\end{enumerate}
+
+\subsection{2.3 1계 선형 미분방정식}
+\ptype{표준형 $y'+P(x)y=f(x)$ 로 정리 → 적분인자 $\mu=e^{\int P\,dx}$. 과도항·IVP 포함.}
+\begin{enumerate}
+\item $\dfrac{dy}{dx}+3y=e^{2x}$
+\item $\dfrac{dy}{dx}-y=e^{x}$
+\item $x\dfrac{dy}{dx}+2y=x^3$
+\item $\dfrac{dy}{dx}+(\cot x)\,y=\csc x$
+\item $(x+1)\dfrac{dy}{dx}+y=\ln x$
+\item $\dfrac{dy}{dx}+2xy=x$ \quad(과도항 판별)
+\item $\dfrac{dy}{dx}-2y=xe^{2x}$ \quad(과도항 판별)
+\item $\cos x\dfrac{dy}{dx}+(\sin x)\,y=1$
+\item $\dfrac{dy}{dx}+y=x,\quad y(0)=2$
+\item $x\dfrac{dy}{dx}+y=e^{x},\quad y(1)=2$
+\end{enumerate}
+
+\subsection{2.4 완전 미분방정식}
+\ptype{$M\,dx+N\,dy=0$ 가 완전($M_y=N_x$)인지 확인 후 적분. $k$ 결정·적분인자 포함.}
+\begin{enumerate}
+\item $(2x+y)\,dx+(x-2y)\,dy=0$
+\item $(3x^2+2y^2)\,dx+(4xy+6y^2)\,dy=0$
+\item $(\cos y+2x)\,dx-(x\sin y)\,dy=0$
+\item $(ye^{xy}+2x)\,dx+(xe^{xy}-2y)\,dy=0$
+\item $(2xy-\sec^2 x)\,dx+(x^2+2y)\,dy=0$
+\item $(\ln y+2x)\,dx+\left(\dfrac{x}{y}-1\right)dy=0$
+\item $(6xy^3+\cos y)\,dx+(kx^2y^2-x\sin y)\,dy=0$ \ 에서 완전이 되는 $k$
+\item $(y^3+kxy^4-2x)\,dx+(3xy^2+20x^2y^3)\,dy=0$ \ 에서 완전이 되는 $k$
+\item $(x^2+y^2)\,dx+2xy\,dy=0,\quad y(1)=1$
+\item $(2y^2+3x)\,dx+2xy\,dy=0$ \quad(적분인자 이용)
+\end{enumerate}
+
+\subsection{2.5 치환에 의한 풀이 (동차·베르누이)}
+\ptype{동차형은 $y=ux$, 베르누이형 $y'+Py=fy^n$ 은 $u=y^{1-n}$ 으로 치환.}
+\begin{enumerate}
+\item $(x-y)\,dx+x\,dy=0$
+\item $\dfrac{dy}{dx}=\dfrac{x+y}{x}$
+\item $\dfrac{dy}{dx}=\dfrac{x^2+y^2}{xy}$
+\item $\dfrac{dy}{dx}=\dfrac{y^2+2xy}{x^2}$
+\item $(x+ye^{y/x})\,dx-xe^{y/x}\,dy=0$
+\item $\dfrac{dy}{dx}+y=y^2$
+\item $\dfrac{dy}{dx}+\dfrac{1}{x}\,y=xy^2$
+\item $\dfrac{dy}{dx}-y=e^{x}y^2$
+\item $x\dfrac{dy}{dx}+y=-xy^2$
+\item $\dfrac{dy}{dx}=y(xy^3-1)$
+\end{enumerate}
+
+\subsection{2.7 1계 미분방정식의 선형 모델}
+\ptype{성장·감쇠 $\frac{dA}{dt}=kA$, 뉴턴 냉각 $\frac{dT}{dt}=k(T-T_m)$, 혼합 문제.}
+\begin{enumerate}
+\item 박테리아가 처음 $P_0$, 1시간 후 $\tfrac32 P_0$. 개체수가 3배가 되는 시간은?
+\item 어떤 방사성 물질의 반감기가 1500년이다. 100년 후 남은 비율은?
+\item 탄소-14의 반감기는 5600년이다. 원래 양의 25\%가 남은 화석의 나이는?
+\item Pb-209의 반감기는 3.3시간. 1g이 80\% 붕괴하는 데 걸리는 시간은?
+\item 75\textdegree F 온도계를 20\textdegree F 외부로 옮겼고 1분 후 55\textdegree F. 5분 후 온도는?
+\item 350\textdegree F 케이크를 70\textdegree F 방에 두니 30분 후 200\textdegree F. 1시간 후 온도는?
+\item 20\textdegree C 주위에서 물체가 100\textdegree C$\to$80\textdegree C 로 10분 걸렸다. 40\textdegree C 까지 걸리는 시간은?
+\item 순수한 물 300\,L 탱크에 2\,kg/L 소금물이 3\,L/min 로 들어오고 같은 속도로 나간다. 시각 $t$ 의 소금량 $A(t)$ 는?
+\item 개체수가 현재 양에 비례해 증가하며 초기 500, 배가시간 6시간. 18시간 후 개체수는?
+\item 50\,g 시료가 4년 후 30\,g 으로 감쇠. 반감기는?
+\end{enumerate}
+
+%========================================================
+\section{제3장 \ 고계 미분방정식}
+
+\subsection{3.1 선형방정식의 이론 (론스키안·유일해)}
+\ptype{일반해에서 IVP 풀기, 유일해 존재 구간, 론스키안에 의한 일차독립 판정.}
+\begin{enumerate}
+\item $y=c_1e^{x}+c_2e^{-x}$ 는 $y''-y=0$ 의 일반해. $y(0)=1,\ y'(0)=2$ 인 해는?
+\item $y=c_1\cos 2x+c_2\sin 2x$ ($y''+4y=0$). $y(0)=0,\ y'(0)=4$ 인 해는?
+\item $y=c_1e^{2x}+c_2xe^{2x}$ ($y''-4y'+4y=0$). $y(0)=1,\ y'(0)=5$ 인 해는?
+\item $\{e^{x},\,e^{2x},\,e^{3x}\}$ 의 일차독립 여부를 론스키안으로 판정하라.
+\item $\{1,\,x,\,x^2\}$ 의 일차독립 여부를 판정하라.
+\item $\{\sin x,\,\cos x\}$ 의 일차독립 여부를 판정하라.
+\item $\{e^{x},\,e^{x+3}\}$ 의 일차독립 여부를 판정하라.
+\item $\{x,\,x\ln x\}$ ($x>0$) 의 일차독립 여부를 판정하라.
+\item $(x-2)y''+3y=x$ 가 $x=0$ 을 포함하는 유일해를 갖는 가장 큰 구간은?
+\item $(x^2-4)y''+y'+y=0$ ($x=1$ 에서 조건). 유일해 구간은?
+\end{enumerate}
+
+\subsection{3.2 계수내림법 (Reduction of Order)}
+\ptype{한 해 $y_1$ 로부터 $y_2=y_1\displaystyle\int\frac{e^{-\int P\,dx}}{y_1^{\,2}}\,dx$. 마지막은 비동차 특수해 포함.}
+\begin{enumerate}
+\item $y''-4y=0,\quad y_1=e^{2x}$
+\item $y''-6y'+9y=0,\quad y_1=e^{3x}$
+\item $y''+2y'+y=0,\quad y_1=e^{-x}$
+\item $x^2y''-3xy'+4y=0,\quad y_1=x^2$
+\item $x^2y''-xy'+y=0,\quad y_1=x$
+\item $y''-y'-2y=0,\quad y_1=e^{2x}$
+\item $4y''-4y'+y=0,\quad y_1=e^{x/2}$
+\item $y''-25y=0,\quad y_1=e^{5x}$
+\item $x^2y''+2xy'-6y=0,\quad y_1=x^2$
+\item $y''-y=x,\quad y_1=e^{x}$ \ ($y_2$ 와 특수해를 구해 일반해까지)
+\end{enumerate}
+
+\subsection{3.3 상수계수 동차방정식}
+\ptype{보조방정식의 근(실근·중근·복소근)으로 일반해. 고계·BVP·역문제 포함.}
+\begin{enumerate}
+\item $y''-5y'+6y=0$
+\item $y''+4y'+4y=0$
+\item $y''+9y=0$
+\item $y''-2y'+5y=0$
+\item $2y''-5y'-3y=0$
+\item $y'''-6y''+11y'-6y=0$
+\item $y'''+3y''+3y'+y=0$
+\item $y^{(4)}-16y=0$
+\item $y''+y=0,\quad y(0)=0,\ y\!\left(\tfrac{\pi}{2}\right)=1$ \ (BVP)
+\item 일반해가 $y=c_1e^{-3x}+c_2e^{2x}$ 인 상수계수 동차 미분방정식을 구하라.
+\end{enumerate}
+
+\subsection{3.4 미정계수법 (Undetermined Coefficients)}
+\ptype{$y_p$ 를 강제항 형태로 가정. 보조해와 겹치면 $x$(또는 $x^2$)를 곱함 — 공명.}
+\begin{enumerate}
+\item $y''-3y'+2y=4x$
+\item $y''+y=3x^2$
+\item $y''-4y=e^{3x}$
+\item $y''+4y=3\sin x$
+\item $y''+4y=3\sin 2x$ \quad(공명)
+\item $y''-2y'+y=e^{x}$ \quad(공명)
+\item $y''+y'-2y=2x+3$
+\item $y''-y=e^{x}$ \quad(공명)
+\item $y''+9y=\cos 3x$ \quad(공명)
+\item $y''-3y'+2y=e^{x}$ \quad(공명)
+\end{enumerate}
+
+\subsection{3.5 매개변수변화법 (Variation of Parameters)}
+\ptype{표준형으로 정리 후 $u_1'=-\frac{y_2 f}{W},\ u_2'=\frac{y_1 f}{W}$. 마지막은 3계.}
+\begin{enumerate}
+\item $y''+y=\sec x$
+\item $y''+y=\tan x$
+\item $y''-2y'+y=\dfrac{e^{x}}{x}$
+\item $y''-9y=9x\,e^{-3x}$
+\item $y''+y=\sin x$
+\item $y''-2y'+y=e^{x}\ln x$
+\item $y''+4y=\sec 2x$
+\item $y''-y=e^{x}$
+\item $y''+y=\cot x$
+\item $y'''+4y'=\sec 2x$ \quad(3계)
+\end{enumerate}
+
+\subsection{3.6 코시-오일러 방정식}
+\ptype{$y=x^m$ 대입 → 보조방정식 $am(m-1)+bm+c=0$. IVP·비동차·역문제 포함.}
+\begin{enumerate}
+\item $x^2y''+2xy'-6y=0$
+\item $x^2y''-3xy'+4y=0$
+\item $x^2y''+xy'+4y=0$
+\item $x^2y''+5xy'+4y=0$
+\item $x^2y''-xy'+2y=0$
+\item $2x^2y''+5xy'+y=0$
+\item $x^3y'''+xy'-y=0$
+\item $x^2y''-3xy'+3y=2x^4$
+\item $x^2y''-5xy'+8y=0,\quad y(1)=0,\ y'(1)=4$ \ (IVP)
+\item 일반해가 $y=c_1x^2+c_2x^{-1}$ 인 코시-오일러 방정식을 구하라.
+\end{enumerate}
+
+%========================================================
+\section{제4장 \ 라플라스 변환}
+
+\subsection{4.1 라플라스 변환의 정의}
+\ptype{정의 또는 기본공식·삼각항등식으로 $\Lap\{f(t)\}$ 계산. 감마함수 포함.}
+\begin{enumerate}
+\item $f(t)=e^{2t}\sin t$
+\item $f(t)=e^{-t}\cos 2t$
+\item $f(t)=\sin 3t\cos 3t$
+\item $f(t)=\cos^2 t$
+\item $f(t)=\sin^2 2t$
+\item $f(t)=t\,e^{3t}$
+\item $f(t)=(t-1)^2$
+\item $f(t)=e^{t+5}$
+\item 감마함수를 이용하여 $\Lap\{t^{1/2}\}$ 를 구하라. $\left(\Gamma\!\left(\tfrac32\right)=\tfrac{\sqrt\pi}{2}\right)$
+\item $f(t)=\cos 2t\cos 5t$
+\end{enumerate}
+
+\subsection{4.2 역변환 · 도함수의 변환(IVP)}
+\ptype{부분분수·완전제곱으로 역변환. 라플라스로 초기값문제 풀이.}
+\begin{enumerate}
+\item $\Lapi\!\left\{\dfrac{1}{s^2-6s+10}\right\}$
+\item $\Lapi\!\left\{\dfrac{3s-2}{s^2+16}\right\}$
+\item $\Lapi\!\left\{\dfrac{1}{(s^2+1)(s^2+9)}\right\}$
+\item $\Lapi\!\left\{\dfrac{4s}{s^4+5s^2+4}\right\}$
+\item $\Lapi\!\left\{\dfrac{2s^2+5}{s(s^2+9)}\right\}$
+\item $y''+y=0,\quad y(0)=1,\ y'(0)=-1$
+\item $y'+3y=e^{-3t},\quad y(0)=2$
+\item $y''-5y'+6y=0,\quad y(0)=1,\ y'(0)=2$
+\item $y''+4y'+4y=0,\quad y(0)=0,\ y'(0)=3$
+\item $y''-y=1,\quad y(0)=0,\ y'(0)=0$
+\end{enumerate}
+
+\subsection{4.3 이동정리 (Translation Theorems)}
+\ptype{1차 이동 $\Lap\{e^{at}f(t)\}=F(s-a)$, 2차 이동 $\Lap\{f(t-a)\U(t-a)\}=e^{-as}F(s)$.}
+\begin{enumerate}
+\item $\Lap\{e^{3t}t^2\}$
+\item $\Lap\{e^{-2t}\sin 4t\}$
+\item $\Lap\{e^{t}\cos 2t\}$
+\item $\Lap\{e^{4t}(t^2-3t)\}$
+\item $\Lapi\!\left\{\dfrac{1}{s^2+6s+10}\right\}$
+\item $\Lapi\!\left\{\dfrac{s}{s^2-4s+8}\right\}$
+\item $\Lapi\!\left\{\dfrac{6}{(s-2)^4}\right\}$
+\item $\Lapi\!\left\{\dfrac{e^{-3s}}{s^2}\right\}$
+\item $\Lapi\!\left\{\dfrac{e^{-2s}}{s^2+4}\right\}$
+\item $y''-4y'+5y=0,\quad y(0)=1,\ y'(0)=2$
+\end{enumerate}
+
+\subsection{4.4 변환의 도함수 · 합성곱}
+\ptype{$\Lap\{t^n f(t)\}=(-1)^nF^{(n)}(s)$, 합성곱 $\Lap\{f*g\}=F(s)G(s)$, 적분의 변환 $F(s)/s$.}
+\begin{enumerate}
+\item $\Lap\{t\sin 2t\}$
+\item $\Lap\{t\cos 3t\}$
+\item $\Lap\{t\,e^{2t}\sin t\}$
+\item $\Lap\{t^2\sin t\}$
+\item $\Lap\!\left\{\displaystyle\int_0^t e^{-\tau}\cos(t-\tau)\,d\tau\right\}$
+\item $\Lap\!\left\{\displaystyle\int_0^t \tau\sin(t-\tau)\,d\tau\right\}$
+\item $\Lap\!\left\{\displaystyle\int_0^t \cos 2\tau\,d\tau\right\}$
+\item $\Lapi\!\left\{\dfrac{1}{s^2(s+1)}\right\}$
+\item $\Lapi\!\left\{\dfrac{1}{(s^2+1)^2}\right\}$
+\item $\Lap\!\left\{\displaystyle\int_0^t e^{\tau}(t-\tau)\,d\tau\right\}$
+\end{enumerate}
+
+\subsection{4.5 디랙 델타 함수}
+\ptype{충격항 $\delta(t-a)$ 가 포함된 초기값문제. $\Lap\{\delta(t-a)\}=e^{-as}$.}
+\begin{enumerate}
+\item $y''+y=\delta(t-2\pi),\quad y(0)=0,\ y'(0)=1$
+\item $y''+4y=\delta(t-\pi),\quad y(0)=0,\ y'(0)=0$
+\item $y'-y=\delta(t-1),\quad y(0)=0$
+\item $y''-2y'+y=\delta(t),\quad y(0)=0,\ y'(0)=0$
+\item $y''+16y=\delta(t-2\pi)+\delta(t-4\pi),\quad y(0)=0,\ y'(0)=0$
+\item $y''+2y'+2y=\delta(t-\pi),\quad y(0)=1,\ y'(0)=0$
+\item $y''+y=\delta\!\left(t-\tfrac{\pi}{2}\right),\quad y(0)=0,\ y'(0)=0$
+\item 두 IVP\ $y''+y=\delta(t),\ y(0)=0,\ y'(0)=0$ 와 $y''+y=0,\ y(0)=0,\ y'(0)=1$ 의 해가 같은가? 설명하라.
+\item $y''-y=\delta(t-1),\quad y(0)=0,\ y'(0)=1$
+\item $y''+5y'+6y=\delta(t-1),\quad y(0)=0,\ y'(0)=0$
+\end{enumerate}
+\clearpage
+\begin{center}{\Huge\bfseries\color{kured} PART II.\quad 정답 및 풀이}\end{center}
+\vspace{6pt}
+
+\section*{제2장 정답}
+\addcontentsline{toc}{section}{제2장 정답}
+
+\subsection*{2.2 변수분리법}
+\begin{enumerate}
+\item $e^{y}\,dy=x\,dx\Rightarrow \boxed{e^{y}=\tfrac12 x^2+C}$
+\item $y^{-2}dy=x^3dx\Rightarrow -y^{-1}=\tfrac{x^4}{4}+C\Rightarrow \boxed{y=\dfrac{-4}{x^4+C}}$
+\item $\dfrac{dy}{y}=\dfrac{x}{1+x^2}dx\Rightarrow \ln|y|=\tfrac12\ln(1+x^2)+C\Rightarrow \boxed{y=C\sqrt{1+x^2}}$
+\item $2y\,dy=(2x+1)dx\Rightarrow \boxed{y^2=x^2+x+C}$
+\item $e^{-y}dy=e^{x}dx\Rightarrow -e^{-y}=e^{x}+C\Rightarrow \boxed{e^{-y}=C-e^{x}}$
+\item $\dfrac{dy}{y}=\dfrac{dx}{x\ln x}\Rightarrow \ln|y|=\ln|\ln x|+C\Rightarrow \boxed{y=C\ln x}$
+\item $\dfrac{dy}{y^2-1}=\dfrac{dx}{x}\Rightarrow \boxed{\tfrac12\ln\left|\dfrac{y-1}{y+1}\right|=\ln|x|+C}$
+\item $\boxed{-\tfrac12\cos 2x+\tfrac13\sin 3y=C}$
+\item $-y^{-1}=-\cos x+C$, $y(\tfrac\pi2)=1\Rightarrow C=1\Rightarrow \boxed{y=\dfrac{1}{1+\cos x}}$
+\item $(2y-3)dy=(3x^2+1)dx\Rightarrow y^2-3y=x^3+x+C$; $y(0)=1\Rightarrow C=-2\Rightarrow \boxed{y^2-3y=x^3+x-2}$
+\end{enumerate}
+
+\subsection*{2.3 1계 선형}
+\begin{enumerate}
+\item $\mu=e^{3x}$: $\boxed{y=\tfrac15 e^{2x}+Ce^{-3x}}$
+\item $\mu=e^{-x}$: $\boxed{y=xe^{x}+Ce^{x}}$
+\item $y'+\tfrac2x y=x^2,\ \mu=x^2$: $\boxed{y=\tfrac15 x^3+Cx^{-2}}$
+\item $\mu=\sin x$: $(y\sin x)'=1\Rightarrow \boxed{y=\dfrac{x+C}{\sin x}}$
+\item $\mu=x+1$: $((x+1)y)'=\ln x\Rightarrow \boxed{y=\dfrac{x\ln x-x+C}{x+1}}$
+\item $\mu=e^{x^2}$: $\boxed{y=\tfrac12+Ce^{-x^2}}$. 과도항 $Ce^{-x^2}$ 존재.
+\item $\mu=e^{-2x}$: $\boxed{y=\tfrac12 x^2 e^{2x}+Ce^{2x}}$. 과도항 \textbf{없음}.
+\item $y'+(\tan x)y=\sec x,\ \mu=\sec x$: $\boxed{y=\sin x+C\cos x}$
+\item $y=x-1+Ce^{-x}$; $y(0)=2\Rightarrow C=3\Rightarrow \boxed{y=x-1+3e^{-x}}$
+\item $xy=e^{x}+C$; $y(1)=2\Rightarrow C=2-e\Rightarrow \boxed{y=\dfrac{e^{x}+2-e}{x}}$
+\end{enumerate}
+
+\subsection*{2.4 완전 미분방정식}
+\begin{enumerate}
+\item $M_y=N_x=1$ (완전). $\boxed{x^2+xy-y^2=C}$
+\item $M_y=N_x=4y$. $\boxed{x^3+2xy^2+2y^3=C}$
+\item $M_y=N_x=-\sin y$. $\boxed{x\cos y+x^2=C}$
+\item $M_y=N_x=e^{xy}+xye^{xy}$. $\boxed{e^{xy}+x^2-y^2=C}$
+\item $M_y=N_x=2x$. $\boxed{x^2y-\tan x+y^2=C}$
+\item $M_y=N_x=\tfrac1y$. $\boxed{x\ln y+x^2-y=C}$
+\item $M_y=18xy^2-\sin y,\ N_x=2kxy^2-\sin y\Rightarrow \boxed{k=9}$
+\item $M_y=3y^2+4kxy^3,\ N_x=3y^2+40xy^3\Rightarrow \boxed{k=10}$
+\item 완전. $\tfrac13 x^3+xy^2=C\Rightarrow x^3+3xy^2=C'$; $y(1)=1\Rightarrow \boxed{x^3+3xy^2=4}$
+\item 비완전. $\dfrac{M_y-N_x}{N}=\dfrac{4y-2y}{2xy}=\dfrac1x\Rightarrow \mu=x$. 곱하면 $\boxed{x^2y^2+x^3=C}$
+\end{enumerate}
+
+\subsection*{2.5 치환(동차·베르누이)}
+\begin{enumerate}
+\item 동차 $y=ux$: $xu'=-1\Rightarrow \boxed{y=x(C-\ln|x|)}$
+\item $y=ux$: $xu'=1\Rightarrow \boxed{y=x(\ln|x|+C)}$
+\item $y=ux$: $u\,du=\dfrac{dx}{x}\Rightarrow \boxed{y^2=2x^2(\ln|x|+C)}$
+\item $y=ux$: $\dfrac{du}{u(u+1)}=\dfrac{dx}{x}\Rightarrow \dfrac{u}{u+1}=Cx\Rightarrow \boxed{\dfrac{y}{x+y}=Cx}$
+\item $y=ux$: $e^{u}du=\dfrac{dx}{x}\Rightarrow \boxed{e^{y/x}=\ln|x|+C}$
+\item 베르누이 $u=y^{-1}$: $u'-u=-1\Rightarrow u=1+Ce^{x}\Rightarrow \boxed{y=\dfrac{1}{1+Ce^{x}}}$
+\item $u=y^{-1}$: $u'-\tfrac1x u=-x\Rightarrow u=Cx-x^2\Rightarrow \boxed{y=\dfrac{1}{Cx-x^2}}$
+\item $u=y^{-1}$: $u'+u=-e^{x}\Rightarrow u=-\tfrac12 e^{x}+Ce^{-x}\Rightarrow \boxed{y=\dfrac{1}{Ce^{-x}-\tfrac12 e^{x}}}$
+\item $u=y^{-1}$: $u'-\tfrac1x u=1\Rightarrow u=x(\ln|x|+C)\Rightarrow \boxed{y=\dfrac{1}{x(\ln|x|+C)}}$
+\item $y'+y=xy^4,\ u=y^{-3}$: $u'-3u=-3x\Rightarrow u=x+\tfrac13+Ce^{3x}\Rightarrow \boxed{y^{-3}=x+\tfrac13+Ce^{3x}}$
+\end{enumerate}
+
+\subsection*{2.7 선형 모델}
+\begin{enumerate}
+\item $e^{k}=1.5,\ k=\ln1.5$; $t=\dfrac{\ln3}{\ln1.5}\approx \boxed{2.71\ \text{시간}}$
+\item $0.5^{100/1500}=0.5^{1/15}\approx \boxed{0.955\ (95.5\%)}$
+\item $0.25=0.5^{t/5600}\Rightarrow t/5600=2\Rightarrow \boxed{11200\ \text{년}}$
+\item $0.2=e^{kt},\ k=\dfrac{\ln0.5}{3.3}\Rightarrow t=\dfrac{\ln0.2}{-0.21004}\approx \boxed{7.66\ \text{시간}}$
+\item $T=20+55e^{kt},\ e^{k}=\tfrac{7}{11}$; $T(5)=20+55\!\left(\tfrac{7}{11}\right)^5\approx \boxed{25.7\,\text{\textdegree F}}$
+\item $T=70+280e^{kt},\ e^{30k}=\tfrac{13}{28}$; $T(60)=70+280\!\left(\tfrac{13}{28}\right)^2\approx \boxed{130.4\,\text{\textdegree F}}$
+\item $T=20+80e^{kt},\ e^{10k}=\tfrac34$; $40\Rightarrow e^{kt}=\tfrac14,\ t=\dfrac{\ln(1/4)}{(\ln0.75)/10}\approx \boxed{48.2\ \text{분}}$
+\item $\dfrac{dA}{dt}+\dfrac{A}{100}=6,\ A(0)=0\Rightarrow \boxed{A(t)=600\!\left(1-e^{-t/100}\right)}$
+\item 18시간 $=3$ 배가 $\Rightarrow 500\cdot 2^3=\boxed{4000}$
+\item $e^{4k}=0.6,\ k=\dfrac{\ln0.6}{4}$; 반감기 $=\dfrac{\ln0.5}{k}\approx \boxed{5.43\ \text{년}}$
+\end{enumerate}
+
+\section*{제3장 정답}
+\addcontentsline{toc}{section}{제3장 정답}
+
+\subsection*{3.1 이론(론스키안·유일해)}
+\begin{enumerate}
+\item $c_1+c_2=1,\ c_1-c_2=2\Rightarrow c_1=\tfrac32,\ c_2=-\tfrac12$: $\boxed{y=\tfrac32 e^{x}-\tfrac12 e^{-x}}$
+\item $c_1=0,\ 2c_2=4$: $\boxed{y=2\sin 2x}$
+\item $c_1=1,\ 2c_1+c_2=5\Rightarrow c_2=3$: $\boxed{y=e^{2x}+3xe^{2x}}$
+\item $W=2e^{6x}\neq0\Rightarrow$ \boxed{\text{일차독립}}
+\item $W=2\neq0\Rightarrow$ \boxed{\text{일차독립}}
+\item $W=-1\neq0\Rightarrow$ \boxed{\text{일차독립}}
+\item $e^{x+3}=e^3e^{x}$ 이므로 $W=0\Rightarrow$ \boxed{\text{일차종속}}
+\item $W=x\neq0\ (x>0)\Rightarrow$ \boxed{\text{일차독립}}
+\item 표준형 $y''+\tfrac{3}{x-2}y=\tfrac{x}{x-2}$, 불연속 $x=2$. $\boxed{(-\infty,2)}$
+\item 불연속 $x=\pm2$, $x=1$ 포함. $\boxed{(-2,2)}$
+\end{enumerate}
+
+\subsection*{3.2 계수내림법}
+\begin{enumerate}
+\item $y_2=e^{2x}\!\int e^{-4x}dx\Rightarrow \boxed{y_2=e^{-2x}}$
+\item $y_2=e^{3x}\!\int 1\,dx\Rightarrow \boxed{y_2=xe^{3x}}$
+\item $\boxed{y_2=xe^{-x}}$
+\item $P=-3/x,\ e^{-\int P}=x^3$: $y_2=x^2\!\int x^{-1}dx\Rightarrow \boxed{y_2=x^2\ln x}$
+\item $\boxed{y_2=x\ln x}$
+\item $y_2=e^{2x}\!\int e^{-3x}dx\Rightarrow \boxed{y_2=e^{-x}}$
+\item $\boxed{y_2=xe^{x/2}}$
+\item $\boxed{y_2=e^{-5x}}$
+\item $P=2/x,\ e^{-\int P}=x^{-2}$: $y_2=x^2\!\int x^{-6}dx\Rightarrow \boxed{y_2=x^{-3}}$
+\item $y_2=e^{-x}$; $y_p=Ax+B\Rightarrow -Ax-B=x\Rightarrow A=-1,B=0$. $\boxed{y=c_1e^{x}+c_2e^{-x}-x}$
+\end{enumerate}
+
+\subsection*{3.3 상수계수 동차}
+\begin{enumerate}
+\item $m=2,3$: $\boxed{y=c_1e^{2x}+c_2e^{3x}}$
+\item $m=-2$(중근): $\boxed{y=c_1e^{-2x}+c_2xe^{-2x}}$
+\item $m=\pm3i$: $\boxed{y=c_1\cos3x+c_2\sin3x}$
+\item $m=1\pm2i$: $\boxed{y=e^{x}(c_1\cos2x+c_2\sin2x)}$
+\item $(2m+1)(m-3)=0$: $\boxed{y=c_1e^{-x/2}+c_2e^{3x}}$
+\item $m=1,2,3$: $\boxed{y=c_1e^{x}+c_2e^{2x}+c_3e^{3x}}$
+\item $(m+1)^3=0$: $\boxed{y=c_1e^{-x}+c_2xe^{-x}+c_3x^2e^{-x}}$
+\item $m=\pm2,\pm2i$: $\boxed{y=c_1e^{2x}+c_2e^{-2x}+c_3\cos2x+c_4\sin2x}$
+\item $c_1=0,\ c_2=1$: $\boxed{y=\sin x}$
+\item 근 $-3,2$: $\boxed{y''+y'-6y=0}$
+\end{enumerate}
+
+\subsection*{3.4 미정계수법}
+\begin{enumerate}
+\item $y_p=2x+3$: $\boxed{y=c_1e^{x}+c_2e^{2x}+2x+3}$
+\item $y_p=3x^2-6$: $\boxed{y=c_1\cos x+c_2\sin x+3x^2-6}$
+\item $y_p=\tfrac15 e^{3x}$: $\boxed{y=c_1e^{2x}+c_2e^{-2x}+\tfrac15 e^{3x}}$
+\item $y_p=\sin x$: $\boxed{y=c_1\cos2x+c_2\sin2x+\sin x}$
+\item 공명: $y_p=-\tfrac34 x\cos2x$: $\boxed{y=c_1\cos2x+c_2\sin2x-\tfrac34 x\cos2x}$
+\item 공명(중근): $y_p=\tfrac12 x^2e^{x}$: $\boxed{y=c_1e^{x}+c_2xe^{x}+\tfrac12 x^2e^{x}}$
+\item $y_p=-x-2$: $\boxed{y=c_1e^{-2x}+c_2e^{x}-x-2}$
+\item 공명: $y_p=\tfrac12 xe^{x}$: $\boxed{y=c_1e^{x}+c_2e^{-x}+\tfrac12 xe^{x}}$
+\item 공명: $y_p=\tfrac16 x\sin3x$: $\boxed{y=c_1\cos3x+c_2\sin3x+\tfrac16 x\sin3x}$
+\item 공명: $y_p=-xe^{x}$: $\boxed{y=c_1e^{x}+c_2e^{2x}-xe^{x}}$
+\end{enumerate}
+
+\subsection*{3.5 매개변수변화법}
+\begin{enumerate}
+\item $\boxed{y=c_1\cos x+c_2\sin x+\cos x\ln|\cos x|+x\sin x}$
+\item $\boxed{y=c_1\cos x+c_2\sin x-\cos x\,\ln|\sec x+\tan x|}$
+\item $u_1=-x,\ u_2=\ln|x|$: $\boxed{y=c_1e^{x}+c_2xe^{x}+xe^{x}\ln|x|}$
+\item $\boxed{y=c_1e^{3x}+c_2e^{-3x}-\tfrac14 e^{-3x}(3x^2+x)}$
+\item 공명: $\boxed{y=c_1\cos x+c_2\sin x-\tfrac{x}{2}\cos x}$
+\item $\boxed{y=c_1e^{x}+c_2xe^{x}+e^{x}\!\left(\tfrac{x^2}{2}\ln x-\tfrac{3x^2}{4}\right)}$
+\item $W=2$: $\boxed{y=c_1\cos2x+c_2\sin2x+\tfrac14\cos2x\ln|\cos2x|+\tfrac{x}{2}\sin2x}$
+\item $\boxed{y=c_1e^{x}+c_2e^{-x}+\tfrac{x}{2}e^{x}}$
+\item $\boxed{y=c_1\cos x+c_2\sin x+\sin x\,\ln|\csc x-\cot x|}$
+\item 근 $0,\pm2i$, $W=8$: $\boxed{y=c_1+c_2\cos2x+c_3\sin2x+\tfrac18\ln|\sec2x+\tan2x|-\tfrac{x}{4}\cos2x+\tfrac18\sin2x\ln|\cos2x|}$
+\end{enumerate}
+
+\subsection*{3.6 코시-오일러}
+\begin{enumerate}
+\item $m^2+m-6=0,\ m=-3,2$: $\boxed{y=c_1x^{-3}+c_2x^2}$
+\item $(m-2)^2=0$: $\boxed{y=c_1x^2+c_2x^2\ln x}$
+\item $m^2+4=0$: $\boxed{y=c_1\cos(2\ln x)+c_2\sin(2\ln x)}$
+\item $(m+2)^2=0$: $\boxed{y=c_1x^{-2}+c_2x^{-2}\ln x}$
+\item $m=1\pm i$: $\boxed{y=x[c_1\cos(\ln x)+c_2\sin(\ln x)]}$
+\item $(2m+1)(m+1)=0$: $\boxed{y=c_1x^{-1/2}+c_2x^{-1}}$
+\item $(m-1)^3=0$: $\boxed{y=c_1x+c_2x\ln x+c_3x(\ln x)^2}$
+\item $y_c=c_1x+c_2x^3$, $y_p=\tfrac23 x^4$: $\boxed{y=c_1x+c_2x^3+\tfrac23 x^4}$
+\item $m=2,4$; $c_1+c_2=0,\ 2c_1+4c_2=4\Rightarrow c_1=-2,c_2=2$: $\boxed{y=-2x^2+2x^4}$
+\item 근 $2,-1\Rightarrow m^2-m-2$, $b=0,c=-2$: $\boxed{x^2y''-2y=0}$
+\end{enumerate}
+\section*{제4장 정답}
+\addcontentsline{toc}{section}{제4장 정답}
+
+\subsection*{4.1 라플라스 변환의 정의}
+\begin{enumerate}
+\item $\Lap\{e^{2t}\sin t\}=\boxed{\dfrac{1}{(s-2)^2+1}}$
+\item $\boxed{\dfrac{s+1}{(s+1)^2+4}}$
+\item $\sin3t\cos3t=\tfrac12\sin6t\Rightarrow \boxed{\dfrac{3}{s^2+36}}$
+\item $\cos^2 t=\tfrac{1+\cos2t}{2}\Rightarrow \boxed{\dfrac{1}{2s}+\dfrac{s}{2(s^2+4)}}$
+\item $\sin^2 2t=\tfrac{1-\cos4t}{2}\Rightarrow \boxed{\dfrac{1}{2s}-\dfrac{s}{2(s^2+16)}}$
+\item $\boxed{\dfrac{1}{(s-3)^2}}$
+\item $(t-1)^2=t^2-2t+1\Rightarrow \boxed{\dfrac{2}{s^3}-\dfrac{2}{s^2}+\dfrac{1}{s}}$
+\item $e^{t+5}=e^5e^{t}\Rightarrow \boxed{\dfrac{e^5}{s-1}}$
+\item $\Lap\{t^{1/2}\}=\dfrac{\Gamma(3/2)}{s^{3/2}}=\boxed{\dfrac{\sqrt\pi}{2s^{3/2}}}$
+\item $\cos2t\cos5t=\tfrac12(\cos3t+\cos7t)\Rightarrow \boxed{\dfrac12\!\left(\dfrac{s}{s^2+9}+\dfrac{s}{s^2+49}\right)}$
+\end{enumerate}
+
+\subsection*{4.2 역변환·IVP}
+\begin{enumerate}
+\item $(s-3)^2+1\Rightarrow \boxed{e^{3t}\sin t}$
+\item $\boxed{3\cos4t-\tfrac12\sin4t}$
+\item $\tfrac18\!\left[\tfrac{1}{s^2+1}-\tfrac{1}{s^2+9}\right]\Rightarrow \boxed{\tfrac18\sin t-\tfrac{1}{24}\sin3t}$
+\item $s^4+5s^2+4=(s^2+1)(s^2+4)$: $\tfrac43\!\left[\tfrac{s}{s^2+1}-\tfrac{s}{s^2+4}\right]\Rightarrow \boxed{\tfrac43(\cos t-\cos2t)}$
+\item $A=\tfrac59,\ B=\tfrac{13}{9}$: $\boxed{\tfrac59+\tfrac{13}{9}\cos3t}$
+\item $Y=\dfrac{s-1}{s^2+1}\Rightarrow \boxed{y=\cos t-\sin t}$
+\item $Y=\dfrac{2}{s+3}+\dfrac{1}{(s+3)^2}\Rightarrow \boxed{y=2e^{-3t}+te^{-3t}}$
+\item $Y=\dfrac{s-3}{(s-2)(s-3)}=\dfrac{1}{s-2}\Rightarrow \boxed{y=e^{2t}}$
+\item $Y=\dfrac{3}{(s+2)^2}\Rightarrow \boxed{y=3te^{-2t}}$
+\item $Y=\dfrac{1}{s(s-1)(s+1)}\Rightarrow \boxed{y=\cosh t-1}$
+\end{enumerate}
+
+\subsection*{4.3 이동정리}
+\begin{enumerate}
+\item $\boxed{\dfrac{2}{(s-3)^3}}$
+\item $\boxed{\dfrac{4}{(s+2)^2+16}}$
+\item $\boxed{\dfrac{s-1}{(s-1)^2+4}}$
+\item $\boxed{\dfrac{2}{(s-4)^3}-\dfrac{3}{(s-4)^2}}$
+\item $(s+3)^2+1\Rightarrow \boxed{e^{-3t}\sin t}$
+\item $s=(s-2)+2$ over $(s-2)^2+4$: $\boxed{e^{2t}\cos2t+e^{2t}\sin2t}$
+\item $\boxed{t^3e^{2t}}$
+\item $\boxed{(t-3)\,\U(t-3)}$
+\item $\boxed{\tfrac12\sin2(t-2)\,\U(t-2)}$
+\item $(s-2)^2+1,\ Y=\dfrac{s-2}{(s-2)^2+1}\Rightarrow \boxed{y=e^{2t}\cos t}$
+\end{enumerate}
+
+\subsection*{4.4 변환의 도함수·합성곱}
+\begin{enumerate}
+\item $-\dfrac{d}{ds}\dfrac{2}{s^2+4}=\boxed{\dfrac{4s}{(s^2+4)^2}}$
+\item $-\dfrac{d}{ds}\dfrac{s}{s^2+9}=\boxed{\dfrac{s^2-9}{(s^2+9)^2}}$
+\item $F=\dfrac{1}{(s-2)^2+1}$, $-F'\Rightarrow \boxed{\dfrac{2(s-2)}{[(s-2)^2+1]^2}}$
+\item $\dfrac{d^2}{ds^2}\dfrac{1}{s^2+1}=\boxed{\dfrac{6s^2-2}{(s^2+1)^3}}$
+\item 합성곱 $\dfrac{1}{s+1}\cdot\dfrac{s}{s^2+1}=\boxed{\dfrac{s}{(s+1)(s^2+1)}}$
+\item $\dfrac{1}{s^2}\cdot\dfrac{1}{s^2+1}=\boxed{\dfrac{1}{s^2(s^2+1)}}$
+\item $\dfrac1s\cdot\dfrac{s}{s^2+4}=\boxed{\dfrac{1}{s^2+4}}$
+\item $-\tfrac1s+\tfrac1{s^2}+\tfrac1{s+1}\Rightarrow \boxed{-1+t+e^{-t}}$
+\item $\sin t * \sin t\Rightarrow \boxed{\tfrac12(\sin t-t\cos t)}$
+\item $\dfrac{1}{s-1}\cdot\dfrac{1}{s^2}=\boxed{\dfrac{1}{s^2(s-1)}}$
+\end{enumerate}
+
+\subsection*{4.5 디랙 델타 함수}
+\begin{enumerate}
+\item $Y=\dfrac{1+e^{-2\pi s}}{s^2+1}\Rightarrow \boxed{y=\sin t+\sin t\,\U(t-2\pi)}$
+\item $\boxed{y=\tfrac12\sin2t\,\U(t-\pi)}$
+\item $Y=\dfrac{e^{-s}}{s-1}\Rightarrow \boxed{y=e^{t-1}\,\U(t-1)}$
+\item $Y=\dfrac{1}{(s-1)^2}\Rightarrow \boxed{y=te^{t}}$
+\item $\boxed{y=\tfrac14\sin4t\,[\U(t-2\pi)+\U(t-4\pi)]}$
+\item $(s+1)^2+1$, $s+2=(s+1)+1$: $\boxed{y=e^{-t}\cos t+e^{-t}\sin t+e^{-(t-\pi)}\sin(t-\pi)\,\U(t-\pi)}$
+\item $\sin\!\left(t-\tfrac\pi2\right)=-\cos t$: $\boxed{y=-\cos t\,\U\!\left(t-\tfrac\pi2\right)}$
+\item 형식적 계산은 양쪽 모두 $y=\sin t$ 를 주지만, $\delta$ 항이 $y'(0^+)$ 를 $0\to1$ 로 점프시켜 두 번째 IVP의 조건 $y'(0)=0$ 과 일치한다. \textbf{따라서 두 해는 같다} (단, 두 번째는 충격이 $y'$ 를 만든 결과).
+\item $\dfrac{1}{s^2-1}=\tfrac12\!\left[\tfrac{1}{s-1}-\tfrac{1}{s+1}\right]$: $\boxed{y=\sinh t+\sinh(t-1)\,\U(t-1)}$
+\item $(s+2)(s+3)$: $\boxed{y=\left[e^{-2(t-1)}-e^{-3(t-1)}\right]\U(t-1)}$
+\end{enumerate}
+
+\vspace{1cm}
+\begin{center}\itshape\small
+— 끝 — \quad 시험 잘 보세요!
+\end{center}
+
+\end{document}
